@@ -1,6 +1,8 @@
 FROM alpine:3.20
 
-RUN apk add --no-cache wget tar
+RUN apk add --no-cache wget tar && \
+    addgroup -g 1000 -S appgroup && \
+    adduser -u 1000 -S appuser -G appgroup
 
 WORKDIR /app
 
@@ -15,6 +17,8 @@ RUN apk add --no-cache wget tar && \
     apk del wget tar
 
 COPY config.json .
+
+USER appuser
 
 EXPOSE 8080
 
